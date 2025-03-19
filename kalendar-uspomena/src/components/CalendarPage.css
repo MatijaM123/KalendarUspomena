@@ -1,0 +1,27 @@
+.calendar-container {
+  width: 80vw; /* Make the box almost the size of the whole page */
+  height: 90vh; /* Set height to occupy most of the viewport */
+  margin: auto; /* Center the box horizontally */
+  background-color: white; /* Light purple color */
+  border-radius: 15px; /* Curved edges */
+  padding: 20px; /* Padding for better spacing */
+  display: flex; /* Use flexbox for centering */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+}
+
+table {
+  border-collapse: collapse;
+  width: 90%;
+  height: 90%; /* Make the table fill the container */
+  font-size: 1.5em; /* Increase font size for better visibility */
+}
+
+td {
+  padding: 2%; /* Use percentage for padding */
+  border: 1px solid #ccc;
+  text-align: center;
+  height: calc(100% / 6); /* Set height based on number of rows */
+  width: calc(100% / 7); /* Set width based on number of columns */
+}

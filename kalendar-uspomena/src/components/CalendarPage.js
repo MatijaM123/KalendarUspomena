@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import "./CalendarPage.css";
 
 const CalendarPage = () => {
   const navigate = useNavigate();
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -22,13 +22,21 @@ const CalendarPage = () => {
     navigate(`/memories/${selectedDate}`);
   };
 
+  const handleGoBack = () => {
+    setCurrentDate(new Date(year, month - 1, 1));
+  };
+
+  const handleGoForward = () => {
+    setCurrentDate(new Date(year, month + 1, 1));
+  };
+
   const calendarCells = [];
   for (let i = 0; i < firstDay; i++) {
     calendarCells.push(<td key={`empty-${i}`}></td>);
   }
   for (let day = 1; day <= daysInMonth; day++) {
     calendarCells.push(
-      <td key={day} onClick={() => handleDateClick(day)} style={{ cursor: 'pointer', padding: '10px', border: '1px solid #ccc', textAlign: 'center' }}>
+      <td key={day} onClick={() => handleDateClick(day)} style={{ cursor: 'pointer', textAlign: 'center' }}>
         <div>{day}</div>
         <div style={{ fontSize: '0.8em', color: '#555' }}>{memoryCounts[day]} memories</div>
       </td>
@@ -43,7 +51,13 @@ const CalendarPage = () => {
   return (
     <div className="calendar-container">
       <h2>Memory Calendar</h2>
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <button onClick={handleGoBack}>Go Back</button>
+        <span style={{ fontSize: '1.5em' }}>{`${currentDate.toLocaleString('default', { month: 'long' })} ${year}`}</span>
+
+        <button onClick={handleGoForward}>Go Forward</button>
+      </div>
+      <table style={{ borderCollapse: 'collapse', width: '100%', height: '100%' }}>
         <thead>
           <tr>
             <th>Sun</th>
@@ -62,5 +76,4 @@ const CalendarPage = () => {
     </div>
   );
 };
-
 export default CalendarPage;
