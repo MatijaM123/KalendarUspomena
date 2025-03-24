@@ -1,42 +1,56 @@
 package KalendarUspomena.Service;
 
-
-import KalendarUspomena.DTO.Uspomena.UspomenaIn;
+import KalendarUspomena.DTO.Uspomena.AddUspomenaRequest;
+import KalendarUspomena.DTO.Uspomena.UspomenaDTO;
 import KalendarUspomena.Model.Korisnik;
 import KalendarUspomena.Model.Uspomena;
-import KalendarUspomena.Repository.KorisnikRepository;
 import KalendarUspomena.Repository.UspomenaRepository;
 import KalendarUspomena.Util.JwtUtil;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class UspomenaService {
   private final UspomenaRepository uspomenaRepository;
-  private  final KorisnikRepository korisnikRepository;
-  private final JwtUtil jwtUtil;
+  private  final  JwtUtil jwtUtil;
 
-  public UspomenaService(UspomenaRepository uspomenaRepository,
-                         KorisnikRepository korisnikRepository, JwtUtil jwtUtil) {
-    this.uspomenaRepository = uspomenaRepository;
-    this.korisnikRepository = korisnikRepository;
-    this.jwtUtil = jwtUtil;
+  public List<Integer> getBrojUspomenaPoDanu(String token, int year, int month) throws  Exception{
+      Korisnik k = jwtUtil.extractUser(token.substring(7));
+      List<Object[]> rezultati = uspomenaRepository.findBrojUspomenaPoDanu(k.getId(), year, month);
+    return rezultati.stream()
+        .map(r -> ((Number) r[1]).intValue()) // r[1] je broj uspomena
+        .toList();
   }
 
-  // Čuvanje slike u bazi
-  public Uspomena saveUspomena(UspomenaIn uspomenaIn) throws IOException {
-    Uspomena uspomena = new Uspomena();
-    uspomena.setImage(Base64.getDecoder().decode(uspomenaIn.getImage())); // Pretvaranje u byte[]
-    uspomena.setDateCreated(uspomenaIn.getDate());
-    uspomena.setKorisnik(korisnikRepository.findByUsername(jwtUtil.extractUsername(uspomenaIn.getJwt())));
-    return  uspomenaRepository.save(uspomena);
+  public Uspomena save(AddUspomenaRequest request, String token) throws Exception {
+    Korisnik k = jwtUtil.extractUser(token);
+    Uspomena u = Uspomena.builder()
+        .datum(request.getDatum())
+        .slika(request.getSlika())
+        .korisnik(k)
+        .build();
+    return uspomenaRepository.save(u);
   }
 
-  // Dohvatanje svih slika u Base64 formatu
-  public List<Uspomena> getAllUspomena(String jwt) {
-    return uspomenaRepository.findByKorisnik(korisnikRepository.findByUsername(jwtUtil.extractUsername(jwt)));
+  public Optional<Uspomena> findById(Long id) {
+    return uspomenaRepository.findById(id);
   }
 
+  public void deleteById(Long id,String jwt) throws  Exception {
+      String username = jwtUtil.extractUsername(jwt);
+      Uspomena u = uspomenaRepository.getUspomena(id);
+      if(Objects.equals(username, u.getKorisnik().getUsername()))
+        uspomenaRepository.deleteById(id);
+      else throw new IllegalArgumentException("You are not authorized to do this!");
+  }
+
+  public List<UspomenaDTO> getUspomene(String jwt, int year, int month, int day) throws Exception {
+    Korisnik k = jwtUtil.extractUser(jwt.substring(7));
+    List<Uspomena> rezultati = uspomenaRepository.getUspomenePoDanu(k.getId(), year, month,day);
+    return rezultati.stream().map(r -> new UspomenaDTO(r.getSlika(),r.getId())).toList();
+  }
 }
