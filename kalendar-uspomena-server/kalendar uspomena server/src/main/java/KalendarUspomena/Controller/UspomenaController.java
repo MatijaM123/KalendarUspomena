@@ -61,10 +61,6 @@ public class UspomenaController {
   @PostMapping("/add")
   public ResponseEntity<?> addUspomena(@RequestHeader("Authorization") String jwt,
       @RequestBody AddUspomenaRequest request) {
-    System.out.println(jwt);
-    System.out.println(request.getSlika());
-    System.out.println(request.getDatum());
-
     try{
        uspomenaService.save(request,jwt.substring(7));
        return  ResponseEntity.ok("Uspešno dodata uspomena!");

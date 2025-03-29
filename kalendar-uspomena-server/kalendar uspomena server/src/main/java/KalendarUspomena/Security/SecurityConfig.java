@@ -37,7 +37,7 @@ public class SecurityConfig {
         .authenticationEntryPoint((request, response, exception1) -> {
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // Set HTTP status to 400
           response.setContentType("application/json");
-          response.getWriter().write("{\"error\":\"You are not authorised to do this.\"}");
+          response.getWriter().write("{\"error\":\"You are not authorised to do this!\"}");
         })
     );
     return http.build();

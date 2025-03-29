@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import refreshAccessToken from '../util/Refresh';
 import './MemoryPage.css';
+import backendUrl from '../config';
 
 const MemoryPage = () => {
   const { date } = useParams();
@@ -23,7 +24,7 @@ const MemoryPage = () => {
 
     try {
       const [year, month, day] = date.split("-").map(Number);
-      const response = await axios.get('http://localhost:8082/api/uspomene/'
+      const response = await axios.get(`${backendUrl}/api/uspomene/`
         ,{ params:{year, month, day}, headers: {'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json'} });
       setMemories(response.data.uspomene);
     } catch (err) {
@@ -75,7 +76,7 @@ const MemoryPage = () => {
       };
         await refreshAccessToken(navigate);
         const accessToken = Cookies.get("accessToken");
-        await axios.post('http://localhost:8082/api/uspomene/add',payload,  {headers: {'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json'}});
+        await axios.post(`${backendUrl}/api/uspomene/add`,payload,  {headers: {'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json'}});
         await fetchUspomene();
     }
      catch (err) {
@@ -85,7 +86,7 @@ const MemoryPage = () => {
   const deleteMemory = async ()=>{
     try{
       const accessToken = Cookies.get('accessToken');
-      const response = await axios.delete('http://localhost:8082/api/uspomene/delete'
+      const response = await axios.delete(`${backendUrl}/api/uspomene/delete`
         ,{ params:{id: memories[currentIndex].id}, headers: {'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json'} });
         return;
     }catch{}

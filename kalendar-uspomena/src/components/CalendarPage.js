@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import "./CalendarPage.css";
 import refreshAccessToken from '../util/Refresh.jsx';
+import backendUrl from '../config.js';
 
 const CalendarPage = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const CalendarPage = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:8082/api/uspomene/counts'
+      const response = await axios.get(`${backendUrl}/api/uspomene/counts`
         ,{ params:{year, month: month+1}, headers: {'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json'} });
       setMemoryCounts(response.data.counts);
     } catch (error){

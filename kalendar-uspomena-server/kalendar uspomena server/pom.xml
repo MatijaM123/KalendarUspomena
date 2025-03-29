@@ -12,7 +12,7 @@
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>KalendarUspomena</name>
-	<description>Server-side application designed to assist with preparation for math-focused admission tests.</description>
+	<description>Server-side application designed to save memories in calendar.</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-
+import backendUrl from '../config';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const LoginPage = () => {
     const password = e.target[1].value;
 
     try {
-      const response = await axios.post('http://localhost:8082/api/auth/login', { identificator, password });
+      const response = await axios.post(`${backendUrl}/api/auth/login`, { identificator, password });
         Cookies.set('accessToken', response.data.accesToken);
         Cookies.set('refreshToken', response.data.refreshToken);
         navigate('/calendar');     

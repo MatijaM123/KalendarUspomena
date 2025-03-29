@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import backendUrl from '../config';
 
 const ProtectedRoute = ({ children }) => {  
   let refreshToken = Cookies.get('refreshToken');
@@ -11,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  axios.post('http://localhost:8082/api/auth/refresh', { refreshToken })
+  axios.post(`${backendUrl}/api/auth/refresh`, { refreshToken })
     .then(response => {
       Cookies.set('accessToken',response.data.accesToken)
       accessToken = response.data.accesToken;

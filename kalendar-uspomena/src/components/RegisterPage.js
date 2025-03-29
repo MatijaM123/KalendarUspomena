@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './RegisterPage.css'
+import backendUrl from '../config';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
@@ -16,7 +18,7 @@ const RegisterPage = () => {
     const prezime = e.target[2].value;
 
     try {
-      const response = await axios.post('http://localhost:8082/api/auth/register', { username, password,email,ime,prezime });
+      const response = await axios.post(`${backendUrl}/api/auth/register`, { username, password,email,ime,prezime });
       navigate('/login');
     } catch (error) {
       setMessage(()=>(error.response.data.message.join("\n")));
