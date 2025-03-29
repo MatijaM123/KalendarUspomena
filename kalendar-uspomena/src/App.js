@@ -24,7 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/calendar" element={<ProtectedRoute><CalendarPage /></ProtectedRoute>} />
           <Route path="/memories/:date" element={<ProtectedRoute><MemoryPage /></ProtectedRoute>} />
-          <Route path="" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
     </AuthProvider>
