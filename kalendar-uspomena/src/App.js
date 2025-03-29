@@ -18,7 +18,7 @@ import './App.css'; // Optional: add your CSS here
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename='/KalendarUspomena'>
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
