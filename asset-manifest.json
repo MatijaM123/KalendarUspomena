@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/KalendarUspomena/static/css/main.a8b768e5.css",
-    "main.js": "/KalendarUspomena/static/js/main.c617db08.js",
+    "main.js": "/KalendarUspomena/static/js/main.a99967f5.js",
     "static/js/488.150e7d09.chunk.js": "/KalendarUspomena/static/js/488.150e7d09.chunk.js",
     "index.html": "/KalendarUspomena/index.html",
     "main.a8b768e5.css.map": "/KalendarUspomena/static/css/main.a8b768e5.css.map",
-    "main.c617db08.js.map": "/KalendarUspomena/static/js/main.c617db08.js.map",
+    "main.a99967f5.js.map": "/KalendarUspomena/static/js/main.a99967f5.js.map",
     "488.150e7d09.chunk.js.map": "/KalendarUspomena/static/js/488.150e7d09.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a8b768e5.css",
-    "static/js/main.c617db08.js"
+    "static/js/main.a99967f5.js"
   ]
 }
